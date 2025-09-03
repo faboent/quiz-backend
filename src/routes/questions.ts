@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Response, NextFunction } from 'express';
 import { body, validationResult } from 'express-validator';
 import { authenticateToken, AuthRequest } from '../middleware/auth';
 import pool from '../utils/db';
@@ -16,7 +16,7 @@ const questionValidation = [
 ];
 
 // Get all questions
-questionsRouter.get('/', authenticateToken, async (req: AuthRequest, res, next) => {
+questionsRouter.get('/', authenticateToken, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const result = await pool.query(
       'SELECT * FROM questions ORDER BY created_at DESC'
@@ -28,7 +28,7 @@ questionsRouter.get('/', authenticateToken, async (req: AuthRequest, res, next) 
 });
 
 // Create question
-questionsRouter.post('/', authenticateToken, questionValidation, async (req: AuthRequest, res, next) => {
+questionsRouter.post('/', authenticateToken, questionValidation, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -53,7 +53,7 @@ questionsRouter.post('/', authenticateToken, questionValidation, async (req: Aut
 });
 
 // Update question
-questionsRouter.put('/:id', authenticateToken, questionValidation, async (req: AuthRequest, res, next) => {
+questionsRouter.put('/:id', authenticateToken, questionValidation, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -90,7 +90,7 @@ questionsRouter.put('/:id', authenticateToken, questionValidation, async (req: A
 });
 
 // Delete question
-questionsRouter.delete('/:id', authenticateToken, async (req: AuthRequest, res, next) => {
+questionsRouter.delete('/:id', authenticateToken, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     const userId = req.user?.id;

@@ -1,10 +1,17 @@
-import { Router } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { body, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import pool from '../utils/db';
 
 export const authRouter = Router();
+
+interface AuthRequest extends Request {
+  body: {
+    email: string;
+    password: string;
+  };
+}
 
 // Validation middleware
 const registerValidation = [
@@ -18,7 +25,7 @@ const loginValidation = [
 ];
 
 // Register endpoint
-authRouter.post('/register', registerValidation, async (req, res, next) => {
+authRouter.post('/register', registerValidation, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -67,7 +74,7 @@ authRouter.post('/register', registerValidation, async (req, res, next) => {
 });
 
 // Login endpoint
-authRouter.post('/login', loginValidation, async (req, res, next) => {
+authRouter.post('/login', loginValidation, async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
