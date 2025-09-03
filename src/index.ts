@@ -14,10 +14,15 @@ const port = process.env.PORT || 3000;
 
 // CORS configuration
 app.use(cors({
-  origin: [
-    'https://quiz-frontend-t6vn.vercel.app',  // Your frontend URL
-    'http://localhost:5173'  // Local development URL
-  ],
+  origin: 'https://quiz-frontend-t6vn.vercel.app',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Handle preflight requests
+app.options('*', cors({
+  origin: 'https://quiz-frontend-t6vn.vercel.app',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
