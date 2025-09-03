@@ -29,9 +29,13 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-// Basic health check
-app.get('/', (req, res) => {
+// Test routes to verify API is working
+app.get('/test', (req, res) => {
   res.json({ message: 'Backend is running' });
+});
+
+app.post('/test', (req, res) => {
+  res.json({ message: 'POST request working', body: req.body });
 });
 
 // Routes
