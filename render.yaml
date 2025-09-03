@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: quiz-backend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://postgres:YMTjcLVbC4bARLBl@db.ddkvqeomyjuxognbkzag.supabase.co:5432/postgres
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: https://quiz-frontend-t6vn.vercel.app
+    healthCheckPath: /test
